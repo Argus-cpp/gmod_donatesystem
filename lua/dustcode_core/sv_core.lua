@@ -1,3 +1,7 @@
+if _DUSTCODE_DONATE.VersionType == nil then
+	_DUSTCODE_DONATE.VersionType = "main"
+end
+
 function _DUSTCODE_DONATE:AddMoney(ply, amount, notify)
 	if ply == nil then return end
 	local steamid = ply
