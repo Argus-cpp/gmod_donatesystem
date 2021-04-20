@@ -239,19 +239,13 @@ concommand.Add("donate_givemoney", function( ply, cmd, args )
 		return
 	end
 
-	local target = _DUSTCODE_DONATE:GetPlayerBySteamID64(args[1])
-	if !IsValid(target) then
-		if IsValid(ply) then
-			_DUSTCODE_DONATE:Notify("Игрок не найден", 2, ply)
-		else
-			print("Игрок не найден")
-		end
-		return
+	if CLIENT then 
+		netstream.Start("dustcode:addmoneycommand", args[1], args[2])
+
+		return 
 	end
 
-	if CLIENT then return end
-	
-	_DUSTCODE_DONATE:AddMoney(target, args[2], true)
+	_DUSTCODE_DONATE:AddMoney(args[1], args[2], true)
 
 	if !IsValid(ply) then return end
 

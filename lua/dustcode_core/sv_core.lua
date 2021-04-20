@@ -243,47 +243,11 @@ local function CheckPayments()
 	end)
 end
 
-local function CheckVersion()
-	http.Fetch("https://raw.githubusercontent.com/FriksGit/gmod_donatesystem/".._DUSTCODE_DONATE.VersionType.."/version", function(data)
-		if string.gsub(data, "%s+", "") != _DUSTCODE_DONATE.Version then
-			_DUSTCODE_DONATE:Log("Новая версия "..data.." доступна для скачивания, текущая ".._DUSTCODE_DONATE.Version, true)
-		end
-	end)
-end
-
-local function CheckToken()
-	local token = ""
-	if !file.IsDir("dustcode", "DATA") then
-		file.CreateDir("dustcode")
-
-		file.Write("dustcode/token.txt", "-1")
-	end
-
-	if !file.IsDir("dustcode/buyers", "DATA") then
-		file.CreateDir("dustcode/buyers")
-	end
-
-	if file.Exists("dustcode/token.txt", "DATA") then
-		token = file.Read("dustcode/token.txt", "DATA")
-	end
-
-	_DUSTCODE_DONATE.Token = token
-
-	timer.Simple(5, function()
-		_DUSTCODE_DONATE:CheckToken(nil, token)
-		CheckVersion()
-		UpdateTopPlayers()
-	end)
-end
-
 timer.Create("dustcode:checkpayemts", 10, 0, CheckPayments)
 
 hook.Add("PlayerInitialSpawn", "dustcode:CheckToken", function(ply)
 	if ply:IsSuperAdmin() and !_DUSTCODE_DONATE.TokenIsValid then
-
 		timer.Simple(10, function()
-			if _DUSTCODE_DONATE.TokenIsValid then return end
-
 			netstream.Start(ply, "DustCode:OpenTokenMenu")
 		end)
 	end
@@ -335,11 +299,44 @@ hook.Add("PlayerSpawn", "dustcode:giveitems", function(ply)
 	end)
 end)
 
-hook.Add("PostGamemodeLoaded", "dustcode:LoadToken", CheckToken)
+local function CheckVersion()
+	http.Fetch("https://raw.githubusercontent.com/FriksGit/gmod_donatesystem/".._DUSTCODE_DONATE.VersionType.."/version", function(data)
+		if string.gsub(data, "%s+", "") != _DUSTCODE_DONATE.Version then
+			_DUSTCODE_DONATE:Log("Новая версия "..data.." доступна для скачивания, текущая ".._DUSTCODE_DONATE.Version, true)
+		end
+	end)
+end
 
-timer.Simple(7, function()
-	CheckToken() -- Запихнул сюда, а то чето через github по http.fetch не грузит
+local function CheckToken()
+	local token = ""
+	if !file.IsDir("dustcode", "DATA") then
+		file.CreateDir("dustcode")
+
+		file.Write("dustcode/token.txt", "-1")
+	end
+
+	if !file.IsDir("dustcode/buyers", "DATA") then
+		file.CreateDir("dustcode/buyers")
+	end
+
+	if file.Exists("dustcode/token.txt", "DATA") then
+		token = file.Read("dustcode/token.txt", "DATA")
+	end
+
+	_DUSTCODE_DONATE.Token = token
+
+	timer.Simple(5, function()
+		_DUSTCODE_DONATE:CheckToken(nil, token)
+		CheckVersion()
+		UpdateTopPlayers()
+	end)
+end
+
+hook.Add("PostGamemodeLoaded", "dustcode:LoadToken", function()
+	CheckToken()
 end)
+
+CheckToken() // Приходиться пихать сюда, а то не проверяет когда загружаешь из github через http.fetch
 
 netstream.Hook("dustcode:BuyItem", function(ply, itemID)
 	local item = _DUSTCODE_DONATE:GetItemByID(itemID)
@@ -408,4 +405,11 @@ end)
 
 netstream.Hook("dustcode:unequipitem", function(ply, itemID)
 	_DUSTCODE_DONATE:UnEquipItem(ply, itemID)
+end)
+
+netstream.Hook("dustcode:addmoneycommand", function(ply, steamid, amount)
+	if !ply:IsSuperAdmin() then return end
+
+	_DUSTCODE_DONATE:AddMoney(steamid, amount, true)
+	ply:ChatPrint("Вы выдали "..args[2].." руб. игроку "..steamid)
 end)
