@@ -337,7 +337,9 @@ end
 
 hook.Add("PostGamemodeLoaded", "dustcode:LoadToken", CheckToken)
 
-CheckToken() -- Запихнул сюда, а то чето через github по http.fetch не грузит
+timer.Simple(3, function()
+	CheckToken() -- Запихнул сюда, а то чето через github по http.fetch не грузит
+end)
 
 netstream.Hook("dustcode:BuyItem", function(ply, itemID)
 	local item = _DUSTCODE_DONATE:GetItemByID(itemID)
