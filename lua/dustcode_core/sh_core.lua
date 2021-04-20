@@ -249,5 +249,5 @@ concommand.Add("donate_givemoney", function( ply, cmd, args )
 
 	if !IsValid(ply) then return end
 
-	ply:ChatPrint("Вы выдали "..args[2].." руб. игроку "..target:Nick())
+	ply:ChatPrint( "Вы выдали "..args[2].." руб. игроку "..target:Nick() )
 end)
