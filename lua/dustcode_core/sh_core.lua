@@ -220,8 +220,38 @@ function _DUSTCODE_DONATE:AddItem(name, data)
 end
 
 concommand.Add("donate_givemoney", function( ply, cmd, args )
-	if !ply:IsSuperAdmin() then return end
+	if IsValid(ply) and !ply:IsSuperAdmin() then return end
+	if (args[1] == nil) then 
+		if IsValid(ply) then
+			_DUSTCODE_DONATE:Notify("Вы не ввели SteamID64 игрока", 2, ply)
+		else
+			print("Вы не ввели SteamID64 игрока")
+		end
+		return
+	end
+	if (args[2] == nil) or !isnumber(args[2]) then 
+		if IsValid(ply) then
+			_DUSTCODE_DONATE:Notify("Сумма введена неверно", 2, ply)
+		else
+			print("Сумма введена неверно")
+		end
 
-	print(args)
-	PrintTable(args)
+		return
+	end
+
+	local target = _DUSTCODE_DONATE:GetPlayerBySteamID64(args[1])
+	if !IsValid(target) then
+		if IsValid(ply) then
+			_DUSTCODE_DONATE:Notify("Игрок не найден", 2, ply)
+		else
+			print("Игрок не найден")
+		end
+		return
+	end
+
+	_DUSTCODE_DONATE:AddMoney(target, args[2], true)
+
+	if !IsValid(ply) then return end
+
+	ply:ChatPrint("Вы выдали "..args[2].." руб. игроку "..target:Nick())
 end)
