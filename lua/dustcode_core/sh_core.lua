@@ -249,6 +249,8 @@ concommand.Add("donate_givemoney", function( ply, cmd, args )
 		return
 	end
 
+	if CLIENT then return end
+	
 	_DUSTCODE_DONATE:AddMoney(target, args[2], true)
 
 	if !IsValid(ply) then return end
