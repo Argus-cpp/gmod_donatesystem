@@ -243,13 +243,44 @@ local function CheckPayments()
 	end)
 end
 
+local function CheckToken()
+	local token = ""
+	if !file.IsDir("dustcode", "DATA") then
+		file.CreateDir("dustcode")
+
+		file.Write("dustcode/token.txt", "-1")
+	end
+
+	if !file.IsDir("dustcode/buyers", "DATA") then
+		file.CreateDir("dustcode/buyers")
+	end
+
+	if file.Exists("dustcode/token.txt", "DATA") then
+		token = file.Read("dustcode/token.txt", "DATA")
+	end
+
+	_DUSTCODE_DONATE.Token = token
+
+	timer.Simple(5, function()
+		_DUSTCODE_DONATE:CheckToken(nil, token)
+		CheckVersion()
+		UpdateTopPlayers()
+	end)
+end
+
 timer.Create("dustcode:checkpayemts", 10, 0, CheckPayments)
 
 hook.Add("PlayerInitialSpawn", "dustcode:CheckToken", function(ply)
-	if ply:IsSuperAdmin() and !_DUSTCODE_DONATE.TokenIsValid then
-		timer.Simple(10, function()
-			netstream.Start(ply, "DustCode:OpenTokenMenu")
-		end)
+	if  !_DUSTCODE_DONATE.TokenIsValid then
+		_DUSTCODE_DONATE:CheckToken(nil, _DUSTCODE_DONATE.Token)
+
+		if ply:IsSuperAdmin() then
+			timer.Simple(10, function()
+				if _DUSTCODE_DONATE.TokenIsValid then return end
+
+				netstream.Start(ply, "DustCode:OpenTokenMenu")
+			end)
+		end
 	end
 
 	timer.Simple(1, function()
@@ -307,36 +338,9 @@ local function CheckVersion()
 	end)
 end
 
-local function CheckToken()
-	local token = ""
-	if !file.IsDir("dustcode", "DATA") then
-		file.CreateDir("dustcode")
+hook.Add("PostGamemodeLoaded", "dustcode:LoadToken", CheckToken)
 
-		file.Write("dustcode/token.txt", "-1")
-	end
-
-	if !file.IsDir("dustcode/buyers", "DATA") then
-		file.CreateDir("dustcode/buyers")
-	end
-
-	if file.Exists("dustcode/token.txt", "DATA") then
-		token = file.Read("dustcode/token.txt", "DATA")
-	end
-
-	_DUSTCODE_DONATE.Token = token
-
-	timer.Simple(5, function()
-		_DUSTCODE_DONATE:CheckToken(nil, token)
-		CheckVersion()
-		UpdateTopPlayers()
-	end)
-end
-
-hook.Add("PostGamemodeLoaded", "dustcode:LoadToken", function()
-	CheckToken()
-end)
-
-CheckToken() -- Запихнул сюда, а то не грузит из github через http.fetch
+CheckToken() -- Запихнул сюда, а то чето через github по http.fetch не грузит
 
 netstream.Hook("dustcode:BuyItem", function(ply, itemID)
 	local item = _DUSTCODE_DONATE:GetItemByID(itemID)
