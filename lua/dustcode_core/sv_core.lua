@@ -245,7 +245,7 @@ end
 
 local function CheckVersion()
 	http.Fetch("https://raw.githubusercontent.com/FriksGit/gmod_donatesystem/".._DUSTCODE_DONATE.VersionType.."/version", function(data)
-		if data != _DUSTCODE_DONATE.Version then
+		if string.gsub(data, "%s+", "") != _DUSTCODE_DONATE.Version then
 			_DUSTCODE_DONATE:Log("Новая версия "..data.." доступна для скачивания, текущая ".._DUSTCODE_DONATE.Version, true)
 		end
 	end)
