@@ -261,7 +261,7 @@ local function CheckToken()
 
 	_DUSTCODE_DONATE.Token = token
 
-	timer.Simple(5, function()
+	timer.Simple(2, function()
 		_DUSTCODE_DONATE:CheckToken(nil, token)
 		CheckVersion()
 		UpdateTopPlayers()
