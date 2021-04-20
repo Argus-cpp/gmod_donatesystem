@@ -246,6 +246,7 @@ concommand.Add("donate_givemoney", function( ply, cmd, args )
 	end
 
 	_DUSTCODE_DONATE:AddMoney(args[1], args[2], true)
+	print("Выдано "..args[2].." руб. игроку - "..args[1])
 
 	if !IsValid(ply) then return end
 
