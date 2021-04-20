@@ -272,7 +272,9 @@ timer.Create("dustcode:checkpayemts", 10, 0, CheckPayments)
 
 hook.Add("PlayerInitialSpawn", "dustcode:CheckToken", function(ply)
 	if  !_DUSTCODE_DONATE.TokenIsValid then
-		_DUSTCODE_DONATE:CheckToken(nil, _DUSTCODE_DONATE.Token)
+		timer.Simple(2, function()
+			_DUSTCODE_DONATE:CheckToken(nil, _DUSTCODE_DONATE.Token)
+		end)
 
 		if ply:IsSuperAdmin() then
 			timer.Simple(10, function()
