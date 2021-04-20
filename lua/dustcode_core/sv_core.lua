@@ -243,6 +243,14 @@ local function CheckPayments()
 	end)
 end
 
+local function CheckVersion()
+	http.Fetch("http://gmoddustcode.ru/donatesystem/scripts/version.php", function(data)
+		if data != _DUSTCODE_DONATE.Version then
+			_DUSTCODE_DONATE:Log("Новая версия "..data.." доступна для скачивания, текущая ".._DUSTCODE_DONATE.Version, true)
+		end
+	end)
+end
+
 local function CheckToken()
 	local token = ""
 	if !file.IsDir("dustcode", "DATA") then
@@ -326,14 +334,6 @@ hook.Add("PlayerSpawn", "dustcode:giveitems", function(ply)
 		end
 	end)
 end)
-
-local function CheckVersion()
-	http.Fetch("http://gmoddustcode.ru/donatesystem/scripts/version.php", function(data)
-		if data != _DUSTCODE_DONATE.Version then
-			_DUSTCODE_DONATE:Log("Новая версия "..data.." доступна для скачивания, текущая ".._DUSTCODE_DONATE.Version, true)
-		end
-	end)
-end
 
 hook.Add("PostGamemodeLoaded", "dustcode:LoadToken", CheckToken)
 
