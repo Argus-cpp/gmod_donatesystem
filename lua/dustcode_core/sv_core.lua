@@ -300,7 +300,7 @@ hook.Add("PlayerSpawn", "dustcode:giveitems", function(ply)
 end)
 
 local function CheckVersion()
-	http.Fetch("http://gmoddustcode.ru/donatesystem/scripts/version.php", function(data)
+	http.Fetch("https://raw.githubusercontent.com/FriksGit/gmod_donatesystem/".._DUSTCODE_DONATE.VersionType.."/version", function(data)
 		if data != _DUSTCODE_DONATE.Version then
 			_DUSTCODE_DONATE:Log("Новая версия "..data.." доступна для скачивания, текущая ".._DUSTCODE_DONATE.Version, true)
 		end
