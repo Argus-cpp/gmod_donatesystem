@@ -271,18 +271,13 @@ end
 timer.Create("dustcode:checkpayemts", 10, 0, CheckPayments)
 
 hook.Add("PlayerInitialSpawn", "dustcode:CheckToken", function(ply)
-	if  !_DUSTCODE_DONATE.TokenIsValid then
-		timer.Simple(2, function()
-			_DUSTCODE_DONATE:CheckToken(nil, _DUSTCODE_DONATE.Token)
+	if ply:IsSuperAdmin() and !_DUSTCODE_DONATE.TokenIsValid then
+
+		timer.Simple(10, function()
+			if _DUSTCODE_DONATE.TokenIsValid then return end
+
+			netstream.Start(ply, "DustCode:OpenTokenMenu")
 		end)
-
-		if ply:IsSuperAdmin() then
-			timer.Simple(10, function()
-				if _DUSTCODE_DONATE.TokenIsValid then return end
-
-				netstream.Start(ply, "DustCode:OpenTokenMenu")
-			end)
-		end
 	end
 
 	timer.Simple(1, function()
