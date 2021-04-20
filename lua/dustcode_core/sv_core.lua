@@ -337,7 +337,7 @@ end
 
 hook.Add("PostGamemodeLoaded", "dustcode:LoadToken", CheckToken)
 
-timer.Simple(3, function()
+timer.Simple(7, function()
 	CheckToken() -- Запихнул сюда, а то чето через github по http.fetch не грузит
 end)
 
