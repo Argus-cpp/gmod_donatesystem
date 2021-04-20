@@ -307,7 +307,7 @@ local function CheckVersion()
 	end)
 end
 
-hook.Add("PostGamemodeLoaded", "dustcode:LoadToken", function()
+local function CheckToken()
 	local token = ""
 	if !file.IsDir("dustcode", "DATA") then
 		file.CreateDir("dustcode")
@@ -330,7 +330,13 @@ hook.Add("PostGamemodeLoaded", "dustcode:LoadToken", function()
 		CheckVersion()
 		UpdateTopPlayers()
 	end)
+end
+
+hook.Add("PostGamemodeLoaded", "dustcode:LoadToken", function()
+	CheckToken()
 end)
+
+CheckToken() // Приходиться пихать сюда, а то не проверяет когда загружаешь из github через http.fetch
 
 netstream.Hook("dustcode:BuyItem", function(ply, itemID)
 	local item = _DUSTCODE_DONATE:GetItemByID(itemID)
