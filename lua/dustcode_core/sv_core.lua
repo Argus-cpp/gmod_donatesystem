@@ -330,6 +330,8 @@ local function CheckToken()
 		CheckVersion()
 		UpdateTopPlayers()
 	end)
+
+	SetGlobalString("dustcode_serverip", game.GetIPAddress())
 end
 
 hook.Add("PostGamemodeLoaded", "dustcode:LoadToken", function()
