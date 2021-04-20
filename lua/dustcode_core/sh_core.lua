@@ -218,3 +218,10 @@ function _DUSTCODE_DONATE:AddItem(name, data)
 
 	item = nil
 end
+
+concommand.Add("donate_givemoney", function( ply, cmd, args )
+	if !ply:IsSuperAdmin() then return end
+
+	print(args)
+	PrintTable(args)
+end)
