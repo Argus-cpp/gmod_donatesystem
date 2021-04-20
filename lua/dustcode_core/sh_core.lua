@@ -229,7 +229,7 @@ concommand.Add("donate_givemoney", function( ply, cmd, args )
 		end
 		return
 	end
-	if (args[2] == nil) then 
+	if (args[2] == nil) or (tonumber(args[2]) == nil) then 
 		if IsValid(ply) then
 			_DUSTCODE_DONATE:Notify("Сумма введена неверно", 2, ply)
 		else
