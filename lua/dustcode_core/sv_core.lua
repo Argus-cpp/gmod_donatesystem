@@ -411,5 +411,5 @@ netstream.Hook("dustcode:addmoneycommand", function(ply, steamid, amount)
 	if !ply:IsSuperAdmin() then return end
 
 	_DUSTCODE_DONATE:AddMoney(steamid, amount, true)
-	ply:ChatPrint("Вы выдали "..args[2].." руб. игроку "..steamid)
+	ply:ChatPrint("Вы выдали "..amount.." руб. игроку "..steamid)
 end)
