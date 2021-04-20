@@ -2,7 +2,7 @@ _DUSTCODE_DONATE.WarningMessage = _DUSTCODE_DONATE.WarningMessage or false
 _DUSTCODE_DONATE.Items = _DUSTCODE_DONATE.Items or {}
 _DUSTCODE_DONATE.BuyedItems = _DUSTCODE_DONATE.BuyedItems or {}
 _DUSTCODE_DONATE.Payments = _DUSTCODE_DONATE.Payments or {}
-_DUSTCODE_DONATE.Version = "1.1.0"
+_DUSTCODE_DONATE.Version = "1.2.0"
 
 local errColor = Color(255, 0, 0)
 local defColor = Color(0, 255, 0)
