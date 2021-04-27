@@ -21,7 +21,11 @@ end
 
 local function formatTime(time)
 	time = time * 60
-	return string.format("%02iч %02iм", math.floor(time/3600), math.floor(time/60 % 60))
+	//local mo = math.floor(time/2592000)
+	local d = math.floor(time/86400)
+	local h = math.floor(math.fmod(time, 86400)/3600)
+	local mi = math.floor(math.fmod(time, 3600)/60)
+	return string.format("%02iд %02iч %02iм", d, h, mi)
 end
 
 local function BuyItem(data, unique_id)
