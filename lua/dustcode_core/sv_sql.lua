@@ -13,11 +13,11 @@ if (_DUSTCODE_DONATE.DataSaveType == 'mysqloo') then
 	_DUSTCODE_DONATE.Database:setAutoReconnect(_DUSTCODE_DONATE.MySql.auto_reconnect)
 
 	function _DUSTCODE_DONATE.Database:onConnected()
-		_DUSTCODE_DONATE:Log("Connecting to DATABASE is successfully! ".._DUSTCODE_DONATE.MySql.host.."@".._DUSTCODE_DONATE.MySql.db_name, Color(0,255,0))
+		//_DUSTCODE_DONATE:Log("Connecting to DATABASE is successfully! ".._DUSTCODE_DONATE.MySql.host.."@".._DUSTCODE_DONATE.MySql.db_name, Color(0,255,0))
 	end
 	
 	function _DUSTCODE_DONATE.Database:onConnectionFailed(error)
-		_DUSTCODE_DONATE:Log(error, Color(255,0,0))
+		//_DUSTCODE_DONATE:Log(error, Color(255,0,0))
 	end
 
 	_DUSTCODE_DONATE.Database:connect()
