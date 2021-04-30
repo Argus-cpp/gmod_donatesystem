@@ -6,7 +6,7 @@ if SERVER then return end
 
 _DUSTCODE_DONATE.OpenKey = KEY_F6
 _DUSTCODE_DONATE.OpenCmds = {"/donate", "!donate"}
-_DUSTCODE_DONATE.MinDonate = 0.9 -- Минимальная сумма пополнения
+_DUSTCODE_DONATE.MinDonate = 1 -- Минимальная сумма пополнения
 
 -- Категории, которые отображаются слева в меню
 _DUSTCODE_DONATE.Categories = {
